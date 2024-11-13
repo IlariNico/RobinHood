@@ -1,9 +1,11 @@
 import { Body, Injectable } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import axios from 'axios';
 
 @Injectable()
 export class GameFinderService {
     
+    @Cron(process.env.CRON_REFRESH_EPIC||CronExpression.EVERY_WEEK)
     async searchFreeGamesEpic(){
         const data= (await axios.get(process.env.EPIC_FREE_URL)).data
         const allGames=data.data.Catalog.searchStore.elements
